@@ -1,0 +1,25 @@
+{
+  "name": "svelte-state-renderer",
+  "version": "1.0.0",
+  "description": "abstract-state-router renderer for Svelte",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TehShrike/svelte-state-renderer.git"
+  },
+  "keywords": [
+    "svelte",
+    "asr",
+    "router",
+    "browserify"
+  ],
+  "author": "TehShrike",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/TehShrike/svelte-state-renderer/issues"
+  },
+  "homepage": "https://github.com/TehShrike/svelte-state-renderer#readme"
+}
