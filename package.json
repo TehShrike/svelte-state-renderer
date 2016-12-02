@@ -21,5 +21,15 @@
   "bugs": {
     "url": "https://github.com/TehShrike/svelte-state-renderer/issues"
   },
-  "homepage": "https://github.com/TehShrike/svelte-state-renderer#readme"
+  "homepage": "https://github.com/TehShrike/svelte-state-renderer#readme",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": "es2015"
+        }
+      ]
+    ]
+  }
 }
