@@ -1,5 +1,4 @@
-const activeStateNameKey = 'abstractStateRouterActiveStateName'
-const activeStateParametersKey = 'abstractStateRouterActiveStateParameters'
+const merge = require('deepmerge')
 
 module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 	return function makeRenderer(stateRouter) {
@@ -9,14 +8,14 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 			stateIsActive: stateRouter.stateIsActive
 		}
 
-		const defaultOptions = recursiveExtend(svelteOptions, {
+		const defaultOptions = merge(svelteOptions, {
 			data: { asr }
 		})
 
 		function render(context, cb) {
 			const { element: target, template, content } = context
 
-			const rendererSuppliedOptions = recursiveExtend(defaultOptions, {
+			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
 				data: Object.assign(content, defaultOptions.data)
 			})
@@ -27,7 +26,7 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 				if (typeof template === 'function') {
 					svelte = new template(rendererSuppliedOptions)
 				} else {
-					const options = recursiveExtend(rendererSuppliedOptions, template.options)
+					const options = merge(rendererSuppliedOptions, template.options)
 
 					svelte = new template.component(options)
 					Object.assign(svelte, options.methods)
@@ -81,24 +80,4 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 			}
 		}
 	}
-}
-
-function recursiveExtend(...objects) {
-	const target = {}
-
-	Object.assign(target, ...objects)
-
-	objects.filter(o => o).forEach(o => {
-		objectProperties(o).forEach(key => {
-			recursiveExtend(target[key], o[key])
-		})
-	})
-
-	return target
-}
-
-function objectProperties(o) {
-	return Object.keys(o).filter(key => {
-		return o[key] && typeof o[key] === 'object'
-	})
 }
