@@ -26,7 +26,7 @@ const defaultParameters = {
 	}
 }
 
-const renderer = makeSvelteStateRenderer(defaultOptions)
+const renderer = makeSvelteStateRenderer(defaultParameters)
 
 const stateRouter = StateRouter(renderer, document.querySelector('body'))
 
@@ -56,7 +56,7 @@ Svelte components don't give you an easy way to corrupt them with stateful funct
 
 ## Passing templates to `addState`
 
-When calling the abstract-state-router's addState function, you may provide any of these values as the `template`:
+When calling the abstract-state-router's `addState` function, you may provide any of these values as the `template`:
 
 - a Svelte component constructor function
 - an object with two properties:
