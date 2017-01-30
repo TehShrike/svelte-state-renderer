@@ -28,11 +28,11 @@ const defaultParameters = {
 
 const renderer = makeSvelteStateRenderer(defaultParameters)
 
-const stateRouter = StateRouter(renderer, document.querySelector('body'))
-
-// add whatever states to the state router
-
 domready(function() {
+	const stateRouter = StateRouter(renderer, document.querySelector('body'))
+
+	// add whatever states to the state router
+
 	stateRouter.evaluateCurrentRoute('login')
 })
 ```
