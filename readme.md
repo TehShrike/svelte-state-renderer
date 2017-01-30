@@ -15,7 +15,6 @@ You can also [download the stand-alone build from wzrd.in](https://wzrd.in/stand
 ```js
 const StateRouter = require('abstract-state-router')
 const makeSvelteStateRenderer = require('svelte-state-renderer')
-const domready = require('domready')
 
 
 const defaultParameters = {
@@ -27,14 +26,11 @@ const defaultParameters = {
 }
 
 const renderer = makeSvelteStateRenderer(defaultParameters)
-
 const stateRouter = StateRouter(renderer, document.querySelector('body'))
 
 // add whatever states to the state router
 
-domready(function() {
-	stateRouter.evaluateCurrentRoute('login')
-})
+stateRouter.evaluateCurrentRoute('login')
 ```
 
 ## `makeSvelteStateRenderer(defaultParameters)`
