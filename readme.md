@@ -50,6 +50,8 @@ Svelte components don't give you an easy way to corrupt them with stateful funct
 </a>
 ```
 
+To embed child states, add a `<uiView></uiView>` element to the parent template.
+
 ## Passing templates to `addState`
 
 When calling the abstract-state-router's `addState` function, you may provide any of these values as the `template`:
