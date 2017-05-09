@@ -44,7 +44,7 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 
 			stateRouter.on('stateChangeEnd', onRouteChange)
 
-			svelte.on('teardown', () => {
+			svelte.on('destroy', () => {
 				stateRouter.removeListener('stateChangeEnd', onRouteChange)
 			})
 
