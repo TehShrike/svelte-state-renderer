@@ -2,7 +2,6 @@ const merge = require('deepmerge')
 
 module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 	return function makeRenderer(stateRouter) {
-
 		const asr = {
 			makePath: stateRouter.makePath,
 			stateIsActive: stateRouter.stateIsActive
@@ -28,8 +27,9 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 				} else {
 					const options = merge(rendererSuppliedOptions, template.options)
 
-					svelte = new template.component(options)
-					Object.assign(svelte, options.methods)
+					svelte = options.methods
+						? instantiateWithMethods(template.component, options, options.methods)
+						: new template.component(options)
 				}
 			} catch (e) {
 				cb(e)
@@ -80,4 +80,10 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 			}
 		}
 	}
+}
+
+function instantiateWithMethods(Component, options, methods) {
+	// const coolPrototype = Object.assign(Object.create(Component.prototype), methods)
+	// return Component.call(coolPrototype, options)
+	return Object.assign(new Component(options), methods)
 }
