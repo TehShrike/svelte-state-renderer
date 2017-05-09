@@ -41,7 +41,7 @@ Any parameters you pass in the `defaultParameters` object will be passed to all 
 
 Svelte components don't give you an easy way to corrupt them with stateful functions at the moment, but it is possible.  You can access the state router's `makePath` and `stateIsActive` functions on the `asr` object for now:
 
-```
+```html
 <a
 	href="{{ asr.makePath('app.topics.tasks', { topicId: topic.id }) }}"
 	class="{{ asr.stateIsActive('app.topics.tasks', { topicId: topic.id }) ? 'active' : '' }}"
