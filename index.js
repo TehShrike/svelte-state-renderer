@@ -1,22 +1,20 @@
 const merge = require('deepmerge')
 
-module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
+const copy = object => merge({}, object, { clone: true })
+
+module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 	return function makeRenderer(stateRouter) {
 		const asr = {
 			makePath: stateRouter.makePath,
 			stateIsActive: stateRouter.stateIsActive
 		}
 
-		const defaultOptions = merge(svelteOptions, {
-			data: { asr }
-		})
-
 		function render(context, cb) {
 			const { element: target, template, content } = context
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
-				data: Object.assign(content, defaultOptions.data)
+				data: Object.assign(content, defaultOptions.data, { asr })
 			})
 
 			let svelte
@@ -31,6 +29,7 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 						? instantiateWithMethods(template.component, options, options.methods)
 						: new template.component(options)
 				}
+				svelte.asrReset = createComponentResetter(svelte)
 			} catch (e) {
 				cb(e)
 				return
@@ -56,14 +55,10 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 			render,
 			reset: function reset(context, cb) {
 				const svelte = context.domApi
-				const target = svelte.mountedToTarget
-				svelte.teardown()
 
-				const newContext = Object.assign({}, context, {
-					element: target
-				})
+				svelte.asrReset(context.content)
 
-				render(newContext, cb)
+				cb()
 			},
 			destroy: function destroy(svelte, cb) {
 				svelte.teardown()
@@ -79,6 +74,19 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 				}
 			}
 		}
+	}
+}
+
+function createComponentResetter(component) {
+	const originalData = copy(component.get())
+
+	return function reset(newData) {
+		const resetObject = Object.create(null)
+		Object.keys(component.get()).forEach(key => {
+			resetObject[key] = undefined
+		})
+		Object.assign(resetObject, copy(originalData), newData)
+		component.set(resetObject)
 	}
 }
 
