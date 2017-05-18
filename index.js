@@ -16,11 +16,10 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
-				data: Object.assign(content, defaultOptions.data)
+				data: Object.assign(content, defaultOptions.data, context.parameters)
 			})
 
 			let svelte
-
 			try {
 				if (typeof template === 'function') {
 					svelte = new template(rendererSuppliedOptions)
@@ -56,14 +55,8 @@ module.exports = function SvelteStateRendererFactory(svelteOptions = {}) {
 			render,
 			reset: function reset(context, cb) {
 				const svelte = context.domApi
-				const target = svelte.mountedToTarget
-				svelte.teardown()
-
-				const newContext = Object.assign({}, context, {
-					element: target
-				})
-
-				render(newContext, cb)
+				svelte.set(Object.assign(context.content, defaultOptions.data, context.parameters))
+				cb(null, svelte)
 			},
 			destroy: function destroy(svelte, cb) {
 				svelte.teardown()
