@@ -17,17 +17,21 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				data: Object.assign(content, defaultOptions.data, { asr })
 			})
 
+			function construct(component, options) {
+				return options.methods
+					? instantiateWithMethods(component, options, options.methods)
+					: new component(options)
+			}
+
 			let svelte
 
 			try {
 				if (typeof template === 'function') {
-					svelte = new template(rendererSuppliedOptions)
+					svelte = construct(template, rendererSuppliedOptions)
 				} else {
 					const options = merge(rendererSuppliedOptions, template.options)
 
-					svelte = options.methods
-						? instantiateWithMethods(template.component, options, options.methods)
-						: new template.component(options)
+					svelte = construct(template.component, options)
 				}
 				svelte.asrReset = createComponentResetter(svelte)
 			} catch (e) {
