@@ -6,7 +6,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 	return function makeRenderer(stateRouter) {
 		const asr = {
 			makePath: stateRouter.makePath,
-			stateIsActive: stateRouter.stateIsActive
+			stateIsActive: stateRouter.stateIsActive,
 		}
 
 		function render(context, cb) {
@@ -14,7 +14,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
-				data: Object.assign(content, defaultOptions.data, { asr })
+				data: Object.assign(content, defaultOptions.data, { asr }),
 			})
 
 			function construct(component, options) {
@@ -41,7 +41,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			function onRouteChange() {
 				svelte.set({
-					asr
+					asr,
 				})
 			}
 
@@ -76,7 +76,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				} catch (e) {
 					cb(e)
 				}
-			}
+			},
 		}
 	}
 }
