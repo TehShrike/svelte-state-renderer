@@ -1,6 +1,6 @@
 {
   "name": "svelte-state-renderer",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "abstract-state-router renderer for Svelte",
   "main": "index.js",
   "scripts": {
