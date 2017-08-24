@@ -90,7 +90,9 @@ function createComponentResetter(component) {
 			resetObject[key] = undefined
 		})
 		Object.assign(resetObject, copy(originalData), newData)
+
 		component.set(resetObject)
+		component._handlers = Object.create(null)
 	}
 }
 
