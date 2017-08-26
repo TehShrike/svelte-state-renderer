@@ -1,7 +1,5 @@
 const merge = require('deepmerge')
 
-const copy = object => merge({}, object, { clone: true })
-
 module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 	return function makeRenderer(stateRouter) {
 		const asr = {
@@ -33,7 +31,6 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 					svelte = construct(template.component, options)
 				}
-				svelte.asrReset = createComponentResetter(svelte)
 			} catch (e) {
 				cb(e)
 				return
@@ -59,10 +56,13 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			render,
 			reset: function reset(context, cb) {
 				const svelte = context.domApi
+				const element = svelte.mountedToTarget
 
-				svelte.asrReset(context.content)
+				svelte.teardown()
 
-				cb()
+				const renderContext = Object.assign({ element }, context)
+
+				render(renderContext, cb)
 			},
 			destroy: function destroy(svelte, cb) {
 				svelte.teardown()
@@ -78,21 +78,6 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				}
 			},
 		}
-	}
-}
-
-function createComponentResetter(component) {
-	const originalData = copy(component.get())
-
-	return function reset(newData) {
-		const resetObject = Object.create(null)
-		Object.keys(component.get()).forEach(key => {
-			resetObject[key] = undefined
-		})
-		Object.assign(resetObject, copy(originalData), newData)
-
-		component.set(resetObject)
-		component._handlers = Object.create(null)
 	}
 }
 
