@@ -8,11 +8,11 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 		}
 
 		function render(context, cb) {
-			const { element: target, template, content } = context
+			const { element: target, template, content, parameters } = context
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
-				data: Object.assign(content, defaultOptions.data, { asr }),
+				data: Object.assign(content, defaultOptions.data, { asr }, parameters),
 			})
 
 			function construct(component, options) {
