@@ -58,15 +58,17 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				const svelte = context.domApi
 				const element = svelte.mountedToTarget
 
-				svelte.teardown()
+				svelte.teardown && svelte.teardown()
+				svelte.destroy && svelte.destroy()
 
 				const renderContext = Object.assign({ element }, context)
 
 				render(renderContext, cb)
 			},
 			destroy: function destroy(svelte, cb) {
-				svelte.teardown()
-				cb()
+                svelte.teardown && svelte.teardown()
+                svelte.destroy && svelte.destroy()
+                cb()
 			},
 			getChildElement: function getChildElement(svelte, cb) {
 				try {
