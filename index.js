@@ -1,4 +1,4 @@
-const merge = require('deepmerge')
+const merge = require(`deepmerge`)
 
 module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 	return function makeRenderer(stateRouter) {
@@ -24,7 +24,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			let svelte
 
 			try {
-				if (typeof template === 'function') {
+				if (typeof template === `function`) {
 					svelte = construct(template, rendererSuppliedOptions)
 				} else {
 					const options = merge(rendererSuppliedOptions, template.options)
@@ -42,10 +42,10 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				})
 			}
 
-			stateRouter.on('stateChangeEnd', onRouteChange)
+			stateRouter.on(`stateChangeEnd`, onRouteChange)
 
-			svelte.on('destroy', () => {
-				stateRouter.removeListener('stateChangeEnd', onRouteChange)
+			svelte.on(`destroy`, () => {
+				stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
 			})
 
 			svelte.mountedToTarget = target
@@ -58,20 +58,20 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				const svelte = context.domApi
 				const element = svelte.mountedToTarget
 
-				svelte.teardown()
+				svelte.destroy()
 
 				const renderContext = Object.assign({ element }, context)
 
 				render(renderContext, cb)
 			},
 			destroy: function destroy(svelte, cb) {
-				svelte.teardown()
+				svelte.destroy()
 				cb()
 			},
 			getChildElement: function getChildElement(svelte, cb) {
 				try {
 					const element = svelte.mountedToTarget
-					const child = element.querySelector('uiView')
+					const child = element.querySelector(`uiView`)
 					cb(null, child)
 				} catch (e) {
 					cb(e)

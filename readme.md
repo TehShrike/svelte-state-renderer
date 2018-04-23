@@ -1,5 +1,8 @@
 Use [Svelte](https://svelte.technology/) with [abstract-state-router](https://github.com/TehShrike/abstract-state-router)!
 
+- `svelte-state-renderer` >=2 is compatible with `svelte` >=1.8.1
+- `svelte-state-renderer` <2 is compatible with `svelte` <2
+
 ## Install
 
 npm + your favorite CommonJS bundler is easiest.
