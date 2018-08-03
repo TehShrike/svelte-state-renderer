@@ -3,7 +3,7 @@ const merge = require(`deepmerge`)
 module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 	return function makeRenderer(stateRouter) {
 		const asr = {
-			active: stateRouter.active,
+			getActiveState: stateRouter.getActiveState,
 			makePath: stateRouter.makePath,
 			stateIsActive: stateRouter.stateIsActive,
 		}
