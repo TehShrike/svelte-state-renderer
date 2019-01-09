@@ -11,7 +11,7 @@ npm + your favorite CommonJS bundler is easiest.
 npm install svelte-state-renderer
 ```
 
-You can also [download the stand-alone build from wzrd.in](https://wzrd.in/standalone/svelte-state-renderer@latest).  If you include it in a `<script>` tag, a `svelteStateRenderer` function will be available on the global scope.
+You can also [download the stand-alone build from bundle.run](https://bundle.run/svelte-state-renderer@latest).  If you include it in a `<script>` tag, a `svelteStateRenderer` function will be available on the global scope.
 
 ## Usage
 
