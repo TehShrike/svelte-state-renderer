@@ -2,10 +2,9 @@
   "name": "svelte-state-renderer",
   "version": "2.0.0",
   "description": "abstract-state-router renderer for Svelte",
-  "main": "bundle.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified :-(\"",
-    "build": "babel index.js --out-file bundle.js --presets=es2015"
+    "test": "echo \"Error: no test specified :-(\""
   },
   "repository": {
     "type": "git",
@@ -26,8 +25,5 @@
   "dependencies": {
     "deepmerge": "1.3.1"
   },
-  "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-preset-es2015": "6.18.0"
-  }
+  "devDependencies": {}
 }

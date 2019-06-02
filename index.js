@@ -12,7 +12,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
-				data: Object.assign(content, defaultOptions.data, { asr }),
+				props: Object.assign(content, defaultOptions.props, { asr }),
 			})
 
 			function construct(component, options) {
@@ -37,14 +37,14 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			}
 
 			function onRouteChange() {
-				svelte.set({
+				svelte.$set({
 					asr,
 				})
 			}
 
 			stateRouter.on(`stateChangeEnd`, onRouteChange)
 
-			svelte.on(`destroy`, () => {
+			svelte.$on(`destroy`, () => {
 				stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
 			})
 
@@ -58,14 +58,14 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				const svelte = context.domApi
 				const element = svelte.mountedToTarget
 
-				svelte.destroy()
+				svelte.$destroy()
 
 				const renderContext = Object.assign({ element }, context)
 
 				render(renderContext, cb)
 			},
 			destroy: function destroy(svelte, cb) {
-				svelte.destroy()
+				svelte.$destroy()
 				cb()
 			},
 			getChildElement: function getChildElement(svelte, cb) {
