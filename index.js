@@ -16,9 +16,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			})
 
 			function construct(component, options) {
-				return options.methods
-					? instantiateWithMethods(component, options, options.methods)
-					: new component(options)
+				return new component(options)
 			}
 
 			let svelte
@@ -79,10 +77,4 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			},
 		}
 	}
-}
-
-function instantiateWithMethods(Component, options, methods) {
-	// const coolPrototype = Object.assign(Object.create(Component.prototype), methods)
-	// return Component.call(coolPrototype, options)
-	return Object.assign(new Component(options), methods)
 }
