@@ -42,7 +42,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			stateRouter.on(`stateChangeEnd`, onRouteChange)
 
-			svelte.$on(`destroy`, () => {
+			svelte.$$.on_destroy.push(() => {
 				stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
 			})
 
