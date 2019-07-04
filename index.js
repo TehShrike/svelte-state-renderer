@@ -42,11 +42,9 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			stateRouter.on(`stateChangeEnd`, onRouteChange)
 
-			svelte.$on(`destroy`, () => {
-				stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
-			})
-
+			svelte.asrOnDestroy = () => stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
 			svelte.mountedToTarget = target
+
 			cb(null, svelte)
 		}
 
@@ -56,6 +54,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				const svelte = context.domApi
 				const element = svelte.mountedToTarget
 
+				svelte.asrOnDestroy()
 				svelte.$destroy()
 
 				const renderContext = Object.assign({ element }, context)
@@ -63,6 +62,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				render(renderContext, cb)
 			},
 			destroy: function destroy(svelte, cb) {
+				svelte.asrOnDestroy()
 				svelte.$destroy()
 				cb()
 			},
