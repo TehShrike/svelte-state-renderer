@@ -47,10 +47,10 @@ Svelte components don't give you an easy way to corrupt them with stateful funct
 
 ```html
 <a
-	href="{{ asr.makePath('app.topics.tasks', { topicId: topic.id }) }}"
-	class="{{ asr.stateIsActive('app.topics.tasks', { topicId: topic.id }) ? 'active' : '' }}"
+	href="{ asr.makePath('app.topics.tasks', { topicId: topic.id }) }"
+	class="{ asr.stateIsActive('app.topics.tasks', { topicId: topic.id }) ? 'active' : '' }"
 >
-	{{topic.name}}
+	{topic.name}
 </a>
 ```
 
