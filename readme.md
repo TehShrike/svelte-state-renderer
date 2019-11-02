@@ -43,9 +43,16 @@ Any parameters you pass in the `defaultParameters` object will be passed to all 
 
 ## In templates
 
-Svelte components don't give you an easy way to corrupt them with stateful functions at the moment, but it is possible.  You can access the state router's `makePath` and `stateIsActive` functions on the `asr` object for now:
+To access the `asr` object with its `makePath` and `stateIsActive` functions, you can `export let asr` in your template.
+
+You will access any properties of the object returned by your `resolve` function in the same way – if your `resolve` function returns `{ userId: 13 }` then you would access that value by putting `export let userId` into your component.
 
 ```html
+<script>
+	export let asr
+	export let userId
+</script>
+
 <a
 	href="{ asr.makePath('app.topics.tasks', { topicId: topic.id }) }"
 	class="{ asr.stateIsActive('app.topics.tasks', { topicId: topic.id }) ? 'active' : '' }"
