@@ -7,7 +7,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			stateIsActive: stateRouter.stateIsActive,
 		}
 
-		function render(context) {
+		async function render(context) {
 			const { element: target, template, content } = context
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
@@ -30,7 +30,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 					svelte = construct(template.component, options)
 				}
 			} catch (e) {
-				return Promise.reject(e)
+				throw new Error(e)
 			}
 
 			function onRouteChange() {
@@ -44,12 +44,12 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			svelte.asrOnDestroy = () => stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
 			svelte.mountedToTarget = target
 
-			return Promise.resolve(svelte)
+			return svelte
 		}
 
 		return {
 			render,
-			reset: function reset(context) {
+			reset: async function reset(context) {
 				const svelte = context.domApi
 				const element = svelte.mountedToTarget
 
@@ -60,18 +60,21 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 				return render(renderContext)
 			},
-			destroy: function destroy(svelte) {
+			destroy: async function destroy(svelte) {
 				svelte.asrOnDestroy()
 				svelte.$destroy()
-				return Promise.resolve()
+
+                console.log('destroy')
+
+				return
 			},
-			getChildElement: function getChildElement(svelte) {
+			getChildElement: async function getChildElement(svelte) {
 				try {
 					const element = svelte.mountedToTarget
 					const child = element.querySelector(`uiView`)
-					return Promise.resolve(child)
+					return child
 				} catch (e) {
-					return Promise.reject(e)
+					throw new Error(e)
 				}
 			},
 		}
