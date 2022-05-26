@@ -64,8 +64,6 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				svelte.asrOnDestroy()
 				svelte.$destroy()
 
-                console.log('destroy')
-
 				return
 			},
 			getChildElement: async function getChildElement(svelte) {
