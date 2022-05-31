@@ -21,16 +21,12 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			let svelte
 
-			try {
-				if (typeof template === `function`) {
-					svelte = construct(template, rendererSuppliedOptions)
-				} else {
-					const options = merge(rendererSuppliedOptions, template.options)
+			if (typeof template === `function`) {
+				svelte = construct(template, rendererSuppliedOptions)
+			} else {
+				const options = merge(rendererSuppliedOptions, template.options)
 
-					svelte = construct(template.component, options)
-				}
-			} catch (e) {
-				throw new Error(e)
+				svelte = construct(template.component, options)
 			}
 
 			function onRouteChange() {
@@ -63,17 +59,11 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			destroy: async function destroy(svelte) {
 				svelte.asrOnDestroy()
 				svelte.$destroy()
-
-				return
 			},
 			getChildElement: async function getChildElement(svelte) {
-				try {
-					const element = svelte.mountedToTarget
-					const child = element.querySelector(`uiView`)
-					return child
-				} catch (e) {
-					throw new Error(e)
-				}
+				const element = svelte.mountedToTarget
+				const child = element.querySelector(`uiView`)
+				return child
 			},
 		}
 	}
