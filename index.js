@@ -7,7 +7,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			stateIsActive: stateRouter.stateIsActive,
 		}
 
-		function render(context, cb) {
+		async function render(context) {
 			const { element: target, template, content } = context
 
 			const rendererSuppliedOptions = merge(defaultOptions, {
@@ -21,17 +21,12 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 			let svelte
 
-			try {
-				if (typeof template === `function`) {
-					svelte = construct(template, rendererSuppliedOptions)
-				} else {
-					const options = merge(rendererSuppliedOptions, template.options)
+			if (typeof template === `function`) {
+				svelte = construct(template, rendererSuppliedOptions)
+			} else {
+				const options = merge(rendererSuppliedOptions, template.options)
 
-					svelte = construct(template.component, options)
-				}
-			} catch (e) {
-				cb(e)
-				return
+				svelte = construct(template.component, options)
 			}
 
 			function onRouteChange() {
@@ -45,12 +40,12 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 			svelte.asrOnDestroy = () => stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
 			svelte.mountedToTarget = target
 
-			cb(null, svelte)
+			return svelte
 		}
 
 		return {
 			render,
-			reset: function reset(context, cb) {
+			reset: async function reset(context) {
 				const svelte = context.domApi
 				const element = svelte.mountedToTarget
 
@@ -59,21 +54,16 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 
 				const renderContext = Object.assign({ element }, context)
 
-				render(renderContext, cb)
+				return render(renderContext)
 			},
-			destroy: function destroy(svelte, cb) {
+			destroy: async function destroy(svelte) {
 				svelte.asrOnDestroy()
 				svelte.$destroy()
-				cb()
 			},
-			getChildElement: function getChildElement(svelte, cb) {
-				try {
-					const element = svelte.mountedToTarget
-					const child = element.querySelector(`uiView`)
-					cb(null, child)
-				} catch (e) {
-					cb(e)
-				}
+			getChildElement: async function getChildElement(svelte) {
+				const element = svelte.mountedToTarget
+				const child = element.querySelector(`uiView`)
+				return child
 			},
 		}
 	}
