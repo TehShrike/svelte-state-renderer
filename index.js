@@ -5,6 +5,7 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 		const asr = {
 			makePath: stateRouter.makePath,
 			stateIsActive: stateRouter.stateIsActive,
+			go: stateRouter.go,
 		}
 
 		async function render(context) {
