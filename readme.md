@@ -43,7 +43,7 @@ Any parameters you pass in the `defaultParameters` object will be passed to all 
 
 ## In templates
 
-To access the `asr` object with its `makePath` and `stateIsActive` functions, you can `export let asr` in your template.
+To access the `asr` object with its `makePath`, `stateIsActive`, and `go` functions, you can `export let asr` in your template.
 
 You will access any properties of the object returned by your `resolve` function in the same way – if your `resolve` function returns `{ userId: 13 }` then you would access that value by putting `export let userId` into your component.
 
