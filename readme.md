@@ -4,16 +4,6 @@ Use [Svelte](https://svelte.technology/) with [abstract-state-router](https://gi
 - `svelte-state-renderer` 2 is compatible with `svelte` >=1.8.1
 - `svelte-state-renderer` 3 is compatible with `svelte` 3
 
-## Install
-
-npm + your favorite CommonJS bundler is easiest.
-
-```sh
-npm install svelte-state-renderer
-```
-
-You can also [download the stand-alone build from bundle.run](https://bundle.run/svelte-state-renderer@latest).  If you include it in a `<script>` tag, a `svelteStateRenderer` function will be available on the global scope.
-
 ## Usage
 
 ```js
