@@ -3,6 +3,7 @@
   "version": "4.0.0",
   "description": "abstract-state-router renderer for Svelte",
   "main": "index.svelte.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified :-(\""
   },
