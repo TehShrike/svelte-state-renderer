@@ -1,6 +1,7 @@
-const merge = require(`deepmerge`)
+import merge from 'deepmerge'
+import { mount, unmount } from 'svelte'
 
-module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
+export default function SvelteStateRendererFactory(defaultOptions = {}) {
 	return function makeRenderer(stateRouter) {
 		const asr = {
 			makePath: stateRouter.makePath,
@@ -12,29 +13,25 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 		async function render(context) {
 			const { element: target, template, content } = context
 
+			const props = $state(Object.assign(content, defaultOptions.props, { asr }))
+
 			const rendererSuppliedOptions = merge(defaultOptions, {
 				target,
-				props: Object.assign(content, defaultOptions.props, { asr }),
+				props,
 			})
-
-			function construct(component, options) {
-				return new component(options)
-			}
 
 			let svelte
 
 			if (typeof template === `function`) {
-				svelte = construct(template, rendererSuppliedOptions)
+				svelte = mount(template, rendererSuppliedOptions)
 			} else {
 				const options = merge(rendererSuppliedOptions, template.options)
 
-				svelte = construct(template.component, options)
+				svelte = mount(template.component, options)
 			}
 
 			function onRouteChange() {
-				svelte.$set({
-					asr,
-				})
+				props.asr = asr
 			}
 
 			stateRouter.on(`stateChangeEnd`, onRouteChange)
@@ -52,15 +49,15 @@ module.exports = function SvelteStateRendererFactory(defaultOptions = {}) {
 				const element = svelte.mountedToTarget
 
 				svelte.asrOnDestroy()
-				svelte.$destroy()
+				unmount(svelte)
 
-				const renderContext = Object.assign({ element }, context)
+				const renderContext = { element, ...context }
 
 				return render(renderContext)
 			},
 			destroy: async function destroy(svelte) {
 				svelte.asrOnDestroy()
-				svelte.$destroy()
+				return unmount(svelte)
 			},
 			getChildElement: async function getChildElement(svelte) {
 				const element = svelte.mountedToTarget

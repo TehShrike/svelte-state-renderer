@@ -2,7 +2,8 @@
   "name": "svelte-state-renderer",
   "version": "3.3.0",
   "description": "abstract-state-router renderer for Svelte",
-  "main": "index.js",
+  "main": "index.svelte.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified :-(\""
   },
@@ -24,6 +25,9 @@
   "homepage": "https://github.com/TehShrike/svelte-state-renderer#readme",
   "dependencies": {
     "deepmerge": "1.3.1"
+  },
+  "peerDependencies": {
+	"svelte": "^5.0.5"
   },
   "devDependencies": {}
 }
