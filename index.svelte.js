@@ -1,7 +1,6 @@
-import merge from 'deepmerge'
 import { mount, unmount } from 'svelte'
 
-export default function SvelteStateRendererFactory({props: defaultProps, ...defaultOptions} = {}) {
+export default function SvelteStateRendererFactory({ props: defaultProps, ...defaultOptions } = {}) {
 	return function makeRenderer(stateRouter) {
 		const asr = {
 			makePath: stateRouter.makePath,
@@ -11,24 +10,9 @@ export default function SvelteStateRendererFactory({props: defaultProps, ...defa
 		}
 
 		async function render(context) {
-			const { element: target, template, content } = context
-
-			const props = $state(Object.assign(content, defaultProps, { asr }))
-
-			const rendererSuppliedOptions = merge(defaultOptions, {
-				target,
-				props,
-			})
-
-			let svelte
-
-			if (typeof template === `function`) {
-				svelte = mount(template, rendererSuppliedOptions)
-			} else {
-				const options = merge(rendererSuppliedOptions, template.options)
-
-				svelte = mount(template.component, options)
-			}
+			const { template, target, options = {}, content = {} } = typeof context.template === 'function' ? { template: context.template } : context.template
+			const props = $state({ ...content, ...defaultProps, asr })
+			const svelte = mount(template.component, { ...defaultOptions, target, props, ...options })
 
 			function onRouteChange() {
 				props.asr = asr
