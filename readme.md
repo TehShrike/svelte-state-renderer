@@ -3,7 +3,7 @@ Use [Svelte](https://svelte.technology/) with [abstract-state-router](https://gi
 - `svelte-state-renderer` 1 is compatible with `svelte` 1
 - `svelte-state-renderer` 2 is compatible with `svelte` >=1.8.1
 - `svelte-state-renderer` 3 is compatible with `svelte` 3 & 4
-- `svelte-state-renderer` 4 is compatible with `svelte` 5
+- `svelte-state-renderer` 4 & 5 are compatible with `svelte` 5
 
 ## Usage
 
