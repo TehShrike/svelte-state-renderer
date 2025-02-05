@@ -10,9 +10,10 @@ export default function SvelteStateRendererFactory({ props: defaultProps, ...def
 		}
 
 		async function render(context) {
-			const { template, target, options = {}, content = {} } = typeof context.template === 'function' ? { template: context.template } : context.template
+			const { template, element: target, content = {} } = context
+			const options = template.options || {}
 			const props = $state({ ...content, ...defaultProps, asr })
-			const svelte = mount(template.component, { ...defaultOptions, target, props, ...options })
+			const svelte = mount(typeof template === 'function' ? template : template.component, { ...defaultOptions, target, props, ...options })
 
 			function onRouteChange() {
 				props.asr = asr
