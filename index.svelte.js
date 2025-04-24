@@ -32,17 +32,6 @@ export default function SvelteStateRendererFactory({ props: defaultProps, ...def
 
 		return {
 			render,
-			reset: async function reset(context) {
-				const svelte = context.domApi
-				const element = svelte.mountedToTarget
-
-				svelte.asrOnDestroy()
-				unmount(svelte)
-
-				const renderContext = { element, ...context }
-
-				return render(renderContext)
-			},
 			destroy: async function destroy(svelte, { name }) {
 				stateInfo.get(name).asrOnDestroy()
 				stateInfo.delete(name)
