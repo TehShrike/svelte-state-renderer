@@ -2,6 +2,7 @@ import { mount, unmount } from 'svelte'
 
 export default function SvelteStateRendererFactory({ props: defaultProps, ...defaultOptions } = {}) {
 	return function makeRenderer(stateRouter) {
+		const stateInfo = new Map()
 		const asr = {
 			makePath: stateRouter.makePath,
 			stateIsActive: stateRouter.stateIsActive,
@@ -10,7 +11,7 @@ export default function SvelteStateRendererFactory({ props: defaultProps, ...def
 		}
 
 		async function render(context) {
-			const { template, element: target, content = {} } = context
+			const { template, element: target, content = {}, name } = context
 			const options = template.options || {}
 			const props = $state({ ...content, ...defaultProps, asr })
 			const svelte = mount(typeof template === 'function' ? template : template.component, { ...defaultOptions, target, props, ...options })
@@ -21,31 +22,23 @@ export default function SvelteStateRendererFactory({ props: defaultProps, ...def
 
 			stateRouter.on(`stateChangeEnd`, onRouteChange)
 
-			svelte.asrOnDestroy = () => stateRouter.removeListener(`stateChangeEnd`, onRouteChange)
-			svelte.mountedToTarget = target
+			stateInfo.set(name, {
+				asrOnDestroy: () => stateRouter.removeListener(`stateChangeEnd`, onRouteChange),
+				mountedToTarget: target,
+			})
 
 			return svelte
 		}
 
 		return {
 			render,
-			reset: async function reset(context) {
-				const svelte = context.domApi
-				const element = svelte.mountedToTarget
-
-				svelte.asrOnDestroy()
-				unmount(svelte)
-
-				const renderContext = { element, ...context }
-
-				return render(renderContext)
-			},
-			destroy: async function destroy(svelte) {
-				svelte.asrOnDestroy()
+			destroy: async function destroy(svelte, { name }) {
+				stateInfo.get(name).asrOnDestroy()
+				stateInfo.delete(name)
 				return unmount(svelte)
 			},
-			getChildElement: async function getChildElement(svelte) {
-				const element = svelte.mountedToTarget
+			getChildElement: async function getChildElement(_svelte, { name }) {
+				const element = stateInfo.get(name).mountedToTarget
 				const child = element.querySelector(`uiView`)
 				return child
 			},
