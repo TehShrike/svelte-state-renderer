@@ -1,29 +1,30 @@
 {
-  "name": "svelte-state-renderer",
-  "version": "5.0.1",
-  "description": "abstract-state-router renderer for Svelte",
-  "main": "index.svelte.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified :-(\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TehShrike/svelte-state-renderer.git"
-  },
-  "keywords": [
-    "svelte",
-    "asr",
-    "router",
-    "browserify"
-  ],
-  "author": "TehShrike",
-  "license": "WTFPL",
-  "bugs": {
-    "url": "https://github.com/TehShrike/svelte-state-renderer/issues"
-  },
-  "homepage": "https://github.com/TehShrike/svelte-state-renderer#readme",
-  "peerDependencies": {
-    "svelte": "^5.0.5"
-  }
+	"name": "svelte-state-renderer",
+	"version": "5.0.1",
+	"description": "abstract-state-router renderer for Svelte",
+	"main": "index.svelte.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified :-(\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/TehShrike/svelte-state-renderer.git"
+	},
+	"keywords": [
+		"svelte",
+		"asr",
+		"router",
+		"browserify"
+	],
+	"author": "TehShrike",
+	"license": "WTFPL",
+	"bugs": {
+		"url": "https://github.com/TehShrike/svelte-state-renderer/issues"
+	},
+	"homepage": "https://github.com/TehShrike/svelte-state-renderer#readme",
+	"peerDependencies": {
+		"svelte": "^5.0.5",
+		"abstract-state-router": "^8.0.1"
+	}
 }

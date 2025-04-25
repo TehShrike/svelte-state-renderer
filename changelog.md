@@ -1,3 +1,7 @@
+# 6.0.0
+
+Fix some behavior around HMR.  Breaks compatibility with abstract-state-router versions before 8.0.1. [#31](https://github.com/TehShrike/svelte-state-renderer/pull/31)
+
 # 5.0.1
 
 Fix some issues introduced in 5.0.0.  [#30](https://github.com/TehShrike/svelte-state-renderer/pull/30/files)
