@@ -1,4 +1,4 @@
-Use [Svelte](https://svelte.technology/) with [abstract-state-router](https://github.com/TehShrike/abstract-state-router)!
+Use [Svelte](https://svelte.dev) with [abstract-state-router](https://github.com/TehShrike/abstract-state-router)!
 
 - `svelte-state-renderer` 1 is compatible with `svelte` 1
 - `svelte-state-renderer` 2 is compatible with `svelte` >=1.8.1
