@@ -5,6 +5,8 @@ Use [Svelte](https://svelte.dev) with [abstract-state-router](https://github.com
 - `svelte-state-renderer` 3 is compatible with `svelte` 3 & 4
 - `svelte-state-renderer` 4+ is compatible with `svelte` 5
 
+View an [example app](https://tehshrike.github.io/state-router-example/implementations/svelte/index.html) or its [source code](https://github.com/TehShrike/state-router-example/tree/master/implementations/svelte).
+
 ## Usage
 
 ```js
